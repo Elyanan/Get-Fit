@@ -1,6 +1,7 @@
 "use client";
 
-import type { CSSProperties, ReactNode } from "react";
+import Image from "next/image";
+import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -75,12 +76,14 @@ type Trainer = {
 type GalleryItem = {
   title: string;
   label: string;
-  gradient: string;
+  image: string;
+  alt: string;
+  feature?: "wide" | "tall";
 };
 
 type Testimonial = {
   quote: string;
-  label: string;
+  author: string;
 };
 
 const navLinks: NavLink[] = [
@@ -102,21 +105,21 @@ const stats: Stat[] = [
 
 const chooseUs: IconCard[] = [
   {
-    title: "Complete fitness ecosystem",
+    title: "Professional trainers",
     description:
-      "Train, recover, refuel, and get guidance in one local Addis Ababa fitness destination.",
+      "Friendly coaches help members train with confidence, safer form, and clear goals.",
     Icon: BadgeCheck,
   },
   {
-    title: "Specialized programs",
+    title: "Modern equipment",
     description:
-      "From weight loss and strength to dance, martial arts, kids fitness, pregnancy fitness, and senior training.",
+      "A clean, well-equipped floor supports strength, cardio, mobility, and conditioning.",
     Icon: Sparkles,
   },
   {
-    title: "Support beyond workouts",
+    title: "For every goal",
     description:
-      "Nutrition consulting, meal planning, healthy food, spa services, and professional consultations support the full journey.",
+      "Programs support beginners, athletes, kids, seniors, weight loss, strength, and wellness.",
     Icon: HeartPulse,
   },
 ];
@@ -301,40 +304,52 @@ const featuredPrograms: FeaturedProgram[] = [
 
 const membershipPlans: MembershipPlan[] = [
   {
-    name: "Starter",
-    tone: "Begin with clarity",
+    name: "1 Month",
+    tone: "Flexible start",
     description:
-      "A flexible way to experience the gym floor, group energy, and essential coaching support.",
+      "A focused short-term option for new members, travelers, or anyone restarting their fitness rhythm.",
     features: [
-      "Gym access for consistent training",
-      "Starter fitness consultation",
-      "Access to selected group sessions",
+      "Access to modern gym equipment",
+      "Easy way to test your routine",
+      "Great for getting started quickly",
       "Call or visit for current membership options",
     ],
   },
   {
-    name: "Premium",
-    tone: "Most balanced",
+    name: "3 Months",
+    tone: "Build consistency",
     description:
-      "Built for members who want broader program access, guidance, and steady accountability.",
+      "A practical commitment for members who want momentum, accountability, and visible progress.",
     features: [
-      "Broader program participation",
-      "Nutrition and training guidance",
-      "Transformation-focused check-ins",
-      "Ideal for weight loss, strength, and dance fitness",
+      "Better rhythm for strength and fitness goals",
+      "Time to explore classes and coaching",
+      "Ideal for habit-building",
+      "Call or visit for current membership options",
+    ],
+  },
+  {
+    name: "6 Months",
+    tone: "Transformation path",
+    description:
+      "A premium mid-term plan for members serious about body composition, skill, and lifestyle change.",
+    features: [
+      "Strong fit for weight loss and strength goals",
+      "Enough time for measurable transformation",
+      "Supports class variety and coaching check-ins",
+      "Call or visit for current membership options",
     ],
     highlighted: true,
   },
   {
-    name: "VIP",
-    tone: "Personalized coaching",
+    name: "1 Year",
+    tone: "Long-term value",
     description:
-      "A premium path for focused goals, privacy, expert attention, and elevated support.",
+      "The best long-range option for members who want training to become part of everyday life.",
     features: [
-      "VIP classes and private lessons",
-      "Personal coaching priority",
-      "Consultation-led plan refinement",
-      "Best for intensive transformations and busy schedules",
+      "Designed for lasting consistency",
+      "Best for all-season training discipline",
+      "Room to combine fitness, classes, and recovery",
+      "Call or visit for current membership options",
     ],
   },
 ];
@@ -369,61 +384,64 @@ const trainers: Trainer[] = [
 const galleryItems: GalleryItem[] = [
   {
     title: "Gym Floor",
-    label: "Strength, cardio, and daily training energy",
-    gradient: "linear-gradient(135deg, #111111 0%, #233528 48%, #0db14b 100%)",
+    label: "Bright, modern training floor with strength equipment",
+    image: "/images/img1.webp",
+    alt: "GET FIT GYM main floor with modern strength equipment",
+    feature: "wide",
   },
   {
-    title: "Strength Training",
-    label: "Progressive resistance and confident technique",
-    gradient: "linear-gradient(135deg, #151515 0%, #2d2d2d 42%, #0a7f38 100%)",
+    title: "Modern Equipment",
+    label: "Premium machines, open space, and coaching energy",
+    image: "/images/img2.webp",
+    alt: "Modern GET FIT GYM equipment area with trainers and members",
   },
   {
-    title: "Kickboxing",
-    label: "High-impact conditioning and self defence",
-    gradient: "linear-gradient(135deg, #050505 0%, #331919 45%, #0db14b 100%)",
+    title: "Strength Detail",
+    label: "Clean equipment details for focused progressive training",
+    image: "/images/img3.webp",
+    alt: "Close-up of strength training plate and equipment at GET FIT GYM",
+    feature: "tall",
   },
   {
-    title: "Kids Programs",
-    label: "Active confidence for kids and teens",
-    gradient: "linear-gradient(135deg, #101010 0%, #1d3840 45%, #0db14b 100%)",
+    title: "Training Community",
+    label: "A friendly environment for all ages and goals",
+    image: "/images/img2.webp",
+    alt: "GET FIT GYM training floor with members working out",
   },
   {
-    title: "Dance Fitness",
-    label: "Zumba, Ethiopian, and international movement",
-    gradient: "linear-gradient(135deg, #101010 0%, #352145 45%, #0db14b 100%)",
+    title: "Performance Zone",
+    label: "Strength, cardio, dance, and coaching in one destination",
+    image: "/images/img1.webp",
+    alt: "GET FIT GYM performance space and training machines",
   },
   {
-    title: "Healthy Cafe",
-    label: "Juice bar and nourishing post-workout meals",
-    gradient: "linear-gradient(135deg, #101010 0%, #2d3320 45%, #0db14b 100%)",
-  },
-  {
-    title: "Spa",
-    label: "Recovery care after demanding training",
-    gradient: "linear-gradient(135deg, #101010 0%, #1e3440 48%, #0db14b 100%)",
-  },
-  {
-    title: "Personal Training",
-    label: "Focused coaching and individual progress",
-    gradient: "linear-gradient(135deg, #090909 0%, #282828 45%, #0db14b 100%)",
+    title: "Focused Strength",
+    label: "High-quality equipment for precise, confident lifting",
+    image: "/images/img3.webp",
+    alt: "Strength equipment detail inside GET FIT GYM",
   },
 ];
 
 const testimonials: Testimonial[] = [
   {
     quote:
-      "The gym feels serious but welcoming. The variety of classes makes it easier to stay consistent.",
-    label: "Gym Member",
+      "Incredibly knowledgeable and welcoming staff. The trainers are far better quality than any of the other gyms in Addis. Also one of the cleanest gyms I've ever been to. The group classes have worked exceptionally well for me. I would recommend this gym to anyone, whatever their fitness level. Thank you GET FIT.",
+    author: "Achamyelesh Tariku",
   },
   {
     quote:
-      "I like that training, nutrition, and recovery are treated as one journey instead of separate pieces.",
-    label: "Gym Member",
+      "Joining GetFit was one of the best decisions I've made. The trainers are friendly, patient, and truly committed to helping us improve. They push us to do better while making sure we feel comfortable and confident. I really appreciate the support and positive atmosphere!",
+    author: "Lina Henok",
   },
   {
     quote:
-      "The group energy is motivating, and the coaching makes the workouts feel purposeful.",
-    label: "Gym Member",
+      "This gym is amazing! The trainers and staff are very friendly and disciplined. I personally have seen a huge difference. I highly recommend it to anyone looking for a great place to work out.",
+    author: "Fikirte Mekonnen",
+  },
+  {
+    quote:
+      "Indeed, you get fit at Get Fit! A place where professionalism and absolute dedication are experienced. Proud member of Get Fit.",
+    author: "Selam Sultan",
   },
 ];
 
@@ -437,7 +455,7 @@ const socialLinks = [
   {
     label: "TikTok",
     value: "Get Fit Gym",
-    href: "https://www.tiktok.com/search?q=Get%20Fit%20Gym",
+    href: "https://www.tiktok.com/@getfit.gym?_r=1&_t=ZS-97phzatbsuY",
     Icon: Music,
   },
   {
@@ -597,10 +615,32 @@ function SectionHeading({
   );
 }
 
+function BrandMark({ onClick }: { onClick?: () => void }) {
+  return (
+    <a className="brand-mark" href="#home" onClick={onClick}>
+      <span className="brand-logo" aria-hidden="true">
+        <Image
+          src="/images/logo.png"
+          alt=""
+          width={64}
+          height={64}
+          priority
+          unoptimized
+          sizes="44px"
+        />
+      </span>
+      <span>GET FIT GYM</span>
+    </a>
+  );
+}
+
 export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showTop, setShowTop] = useState(false);
+  const [selectedGallery, setSelectedGallery] = useState<GalleryItem | null>(
+    null,
+  );
 
   useEffect(() => {
     const onScroll = () => {
@@ -614,6 +654,27 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!selectedGallery) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedGallery(null);
+      }
+    };
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [selectedGallery]);
+
   const closeNav = () => setNavOpen(false);
 
   return (
@@ -622,12 +683,7 @@ export default function Home() {
         className={`site-nav ${isScrolled ? "is-scrolled" : ""}`}
         aria-label="Primary navigation"
       >
-        <a className="brand-mark" href="#home" onClick={closeNav}>
-          <span className="brand-icon" aria-hidden="true">
-            GF
-          </span>
-          <span>GET FIT GYM</span>
-        </a>
+        <BrandMark onClick={closeNav} />
 
         <div className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
@@ -649,7 +705,7 @@ export default function Home() {
         </div>
 
         <button
-          className="nav-toggle lg:hidden"
+          className="nav-toggle"
           type="button"
           aria-label={navOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={navOpen}
@@ -658,7 +714,7 @@ export default function Home() {
           {navOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
 
-        <div className={`mobile-panel lg:hidden ${navOpen ? "is-open" : ""}`}>
+        <div className={`mobile-panel ${navOpen ? "is-open" : ""}`}>
           {navLinks.map((link) => (
             <a key={link.href} href={link.href} onClick={closeNav}>
               {link.label}
@@ -682,7 +738,10 @@ export default function Home() {
         <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-5 pb-16 pt-28 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:pb-20 lg:pt-32">
           <Reveal className="hero-copy" visibleByDefault>
             <p className="eyebrow">Premium fitness in CMC, Addis Ababa</p>
-            <h1>Transform Your Body. Transform Your Life.</h1>
+            <h1>
+              <span>Transform Your Body.</span>
+              <span>Transform Your Life.</span>
+            </h1>
             <p className="hero-subtitle">
               Join Addis Ababa&apos;s complete fitness destination with expert
               trainers, specialized programs, and a community built to help you
@@ -713,25 +772,24 @@ export default function Home() {
           </Reveal>
 
           <Reveal className="hero-visual" delay={120} visibleByDefault>
-            <div className="training-display">
-              <div className="training-display-top">
-                <span>GET FIT</span>
-                <strong>Performance Hub</strong>
+            <div className="hero-photo-card">
+              <Image
+                src="/images/img1.webp"
+                alt="GET FIT GYM training floor in Addis Ababa"
+                fill
+                priority
+                unoptimized
+                sizes="(max-width: 1024px) 100vw, 48vw"
+                className="hero-photo"
+              />
+              <div className="hero-photo-overlay" aria-hidden="true" />
+              <div className="hero-photo-badge">
+                <span>Premium Floor</span>
+                <strong>Modern equipment. Focused coaching.</strong>
               </div>
-              <div className="training-bars" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="training-ring" aria-hidden="true">
-                <div className="ring-core">
-                  <Dumbbell size={42} aria-hidden="true" />
-                </div>
-              </div>
-              <div className="training-metrics">
+              <div className="hero-photo-strip">
                 <span>Strength</span>
-                <span>Dance</span>
+                <span>Classes</span>
                 <span>Recovery</span>
               </div>
             </div>
@@ -758,37 +816,52 @@ export default function Home() {
       </section>
 
       <section id="about" className="section-band">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:px-10">
-          <div>
-            <SectionHeading
-              eyebrow="About the gym"
-              title="A complete local fitness center for Addis Ababa."
-              description="GET FIT GYM brings training, coaching, recovery, nutrition, and community into one polished space in CMC."
-            />
-            <Reveal delay={80}>
-              <p className="mt-7 text-base leading-8 text-zinc-300">
-                Members can build a routine around general fitness, personal
-                training, nutrition consulting, kids programs, dance fitness,
-                martial arts, spa services, healthy food, and a cafe and juice
-                bar. Whether you are starting fresh or training seriously, the
-                goal is the same: make progress feel supported, measurable, and
-                energizing.
-              </p>
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:px-10">
+          <div className="about-visual-wrap">
+            <Reveal className="about-image-card">
+              <Image
+                src="/images/img2.webp"
+                alt="Modern GET FIT GYM equipment and training floor"
+                fill
+                unoptimized
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="about-image"
+              />
+              <div className="about-image-overlay" aria-hidden="true" />
+              <div className="about-image-note">
+                <strong>Clean. Modern. Welcoming.</strong>
+                <span>Built for every age, goal, and fitness level.</span>
+              </div>
             </Reveal>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            {chooseUs.map((item, index) => (
-              <Reveal key={item.title} delay={index * 90}>
-                <article className="glass-card h-full">
-                  <div className="icon-box">
-                    <item.Icon size={24} aria-hidden="true" />
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
-              </Reveal>
-            ))}
+          <div className="about-copy">
+            <SectionHeading
+              eyebrow="About the gym"
+              title="A polished fitness home for every goal."
+              description="GET FIT GYM combines professional coaching, modern equipment, and a friendly training atmosphere in CMC, Addis Ababa."
+            />
+            <Reveal delay={80}>
+              <p className="about-short-copy">
+                Train with expert support, high-quality machines, energetic
+                classes, and programs for beginners, athletes, kids, seniors,
+                weight loss, strength, dance, and wellness.
+              </p>
+            </Reveal>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {chooseUs.map((item, index) => (
+                <Reveal key={item.title} delay={index * 90}>
+                  <article className="glass-card h-full">
+                    <div className="icon-box">
+                      <item.Icon size={24} aria-hidden="true" />
+                    </div>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -855,7 +928,7 @@ export default function Home() {
             align="center"
           />
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {membershipPlans.map((plan, index) => (
               <Reveal key={plan.name} delay={index * 90}>
                 <article
@@ -917,47 +990,95 @@ export default function Home() {
           <SectionHeading
             eyebrow="Gallery"
             title="A visual feel for the GET FIT experience."
-            description="Local-safe visual placeholders show the major areas and can be replaced with real gym photography later."
+            description="A polished look inside the training floor, equipment zones, and atmosphere at GET FIT GYM."
             align="center"
           />
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="gallery-grid mt-12">
             {galleryItems.map((item, index) => (
               <Reveal key={item.title} delay={(index % 4) * 70}>
-                <article
-                  className="gallery-card"
-                  style={{ "--gallery-gradient": item.gradient } as CSSProperties}
+                <button
+                  className={`gallery-card ${item.feature ? `is-${item.feature}` : ""}`}
+                  type="button"
+                  onClick={() => setSelectedGallery(item)}
+                  aria-label={`Open ${item.title} image`}
                 >
-                  <div aria-hidden="true" />
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                    className="gallery-image"
+                  />
+                  <div className="gallery-overlay" aria-hidden="true" />
                   <span>{item.label}</span>
                   <h3>{item.title}</h3>
-                </article>
+                </button>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
+      {selectedGallery ? (
+        <div
+          className="gallery-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${selectedGallery.title} image preview`}
+          onClick={() => setSelectedGallery(null)}
+        >
+          <div
+            className="gallery-lightbox-panel"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              className="lightbox-close"
+              type="button"
+              aria-label="Close gallery image"
+              onClick={() => setSelectedGallery(null)}
+            >
+              <X size={22} aria-hidden="true" />
+            </button>
+            <div className="lightbox-image-wrap">
+              <Image
+                src={selectedGallery.image}
+                alt={selectedGallery.alt}
+                fill
+                unoptimized
+                sizes="90vw"
+                className="lightbox-image"
+              />
+            </div>
+            <div className="lightbox-caption">
+              <strong>{selectedGallery.title}</strong>
+              <span>{selectedGallery.label}</span>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <section id="testimonials" className="section-band">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="Testimonials"
-            title="Realistic feedback, presented without invented identities."
-            description="Use these generic member-style cards until GET FIT GYM adds approved customer quotes."
+            title="Trusted by members who train here."
+            description="Real customer feedback highlights the coaching quality, cleanliness, group classes, and supportive atmosphere."
             align="center"
           />
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
             {testimonials.map((testimonial, index) => (
               <Reveal key={testimonial.quote} delay={index * 90}>
                 <article className="testimonial-card h-full">
-                  <div className="flex gap-1 text-[#0DB14B]" aria-hidden="true">
+                  <div className="rating-stars flex gap-1" aria-hidden="true">
                     {[0, 1, 2, 3, 4].map((star) => (
                       <Star key={star} size={18} fill="currentColor" />
                     ))}
                   </div>
                   <blockquote>{testimonial.quote}</blockquote>
-                  <span>{testimonial.label}</span>
+                  <span>{testimonial.author}</span>
                 </article>
               </Reveal>
             ))}
@@ -966,7 +1087,7 @@ export default function Home() {
       </section>
 
       <section id="contact" className="section-band section-dark contact-section">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:px-10">
           <div>
             <SectionHeading
               eyebrow="Contact"
@@ -1030,53 +1151,37 @@ export default function Home() {
                 </a>
               </div>
             </Reveal>
+
+            <Reveal delay={320}>
+              <div className="contact-socials">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <social.Icon size={18} aria-hidden="true" />
+                    <span>{social.label}</span>
+                  </a>
+                ))}
+              </div>
+            </Reveal>
           </div>
 
           <Reveal delay={120}>
-            <form
-              className="contact-form"
-              aria-label="Contact form"
-              onSubmit={(event) => event.preventDefault()}
-            >
-              <div>
-                <label htmlFor="name">Name</label>
-                <input id="name" name="name" type="text" autoComplete="name" />
-              </div>
-              <div>
-                <label htmlFor="phone">Phone</label>
-                <input id="phone" name="phone" type="tel" autoComplete="tel" />
-              </div>
-              <div>
-                <label htmlFor="goal">Fitness goal</label>
-                <select id="goal" name="goal" defaultValue="">
-                  <option value="" disabled>
-                    Choose a focus
-                  </option>
-                  <option>Weight loss</option>
-                  <option>Strength training</option>
-                  <option>Personal training</option>
-                  <option>Dance fitness</option>
-                  <option>Kids or teens program</option>
-                  <option>VIP coaching</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="message">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  placeholder="Tell us what you want to improve."
-                />
-              </div>
-              <button className="cta-button cta-primary justify-center" type="submit">
-                Request a Callback
-                <ArrowRight size={18} aria-hidden="true" />
-              </button>
-              <p>
-                For the fastest response, call or WhatsApp the gym directly.
-              </p>
-            </form>
+            <div className="map-card">
+              <iframe
+                title="GET FIT GYM location on Google Maps"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.457697138449!2d38.8431632!3d9.0219445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b9b003ab50f1d%3A0x66f8f679ae063ad1!2sGET%20FIT%20GYM!5e0!3m2!1sen!2set!4v1783442606733!5m2!1sen!2set"
+                width="600"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            </div>
           </Reveal>
         </div>
       </section>
@@ -1084,12 +1189,7 @@ export default function Home() {
       <footer className="site-footer">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-4 lg:px-10">
           <div>
-            <a className="brand-mark" href="#home">
-              <span className="brand-icon" aria-hidden="true">
-                GF
-              </span>
-              <span>GET FIT GYM</span>
-            </a>
+            <BrandMark />
             <p className="mt-5 text-sm leading-7 text-zinc-400">
               Premium dark fitness destination in CMC, Addis Ababa, built for
               training, transformation, recovery, and community.
@@ -1137,8 +1237,17 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="border-t border-white/10 px-5 py-6 text-center text-sm text-zinc-500">
-          Copyright {new Date().getFullYear()} GET FIT GYM. All rights reserved.
+        <div className="footer-bottom">
+          <span>
+            Copyright {new Date().getFullYear()} GET FIT GYM. All rights reserved.
+          </span>
+          <a
+            href="https://websitecrafters.net"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Website crafted by WebsiteCrafters
+          </a>
         </div>
       </footer>
 
