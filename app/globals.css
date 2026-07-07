@@ -138,10 +138,13 @@ a {
   display: inline-grid;
   width: 2.65rem;
   height: 2.65rem;
+  flex: 0 0 auto;
+  margin-left: auto;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(225, 182, 49, 0.48);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(225, 182, 49, 0.14);
+  box-shadow: 0 0 22px rgba(225, 182, 49, 0.2);
   color: #ffffff;
 }
 
@@ -369,6 +372,10 @@ a {
   font-weight: 950;
   line-height: 0.95;
   text-wrap: balance;
+}
+
+.hero-copy h1 span {
+  display: block;
 }
 
 .hero-subtitle {
@@ -1441,7 +1448,7 @@ a {
 @media (min-width: 1024px) {
   .nav-toggle,
   .mobile-panel {
-    display: none;
+    display: none !important;
   }
 }
 
